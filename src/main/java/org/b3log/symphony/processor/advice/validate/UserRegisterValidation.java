@@ -40,7 +40,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -48,12 +47,13 @@ import java.util.Map;
  *
  * @author <a href="mailto:wmainlove@gmail.com">Love Yao</a>
  * @author <a href="http://88250.b3log.org">Liang Ding</a>
- * @version 1.5.2.9, Dec 23, 2016
+ * @version 1.5.2.11, Jan 10, 2017
  * @since 0.2.0
  */
 @Named
 @Singleton
 public class UserRegisterValidation extends BeforeRequestProcessAdvice {
+
     /**
      * Max user name length.
      */
@@ -170,23 +170,16 @@ public class UserRegisterValidation extends BeforeRequestProcessAdvice {
      * @return {@code true} if it is invalid, returns {@code false} otherwise
      */
     public static boolean invalidCaptcha(final String captcha, final HttpServletRequest request) {
-        final HttpSession session = request.getSession(false);
-        if (null == session) {
-            return true;
-        }
-
         if (Strings.isEmptyOrNull(captcha) || captcha.length() != CAPTCHA_LENGTH) {
             return true;
         }
 
-        final String storedCaptcha = (String) session.getAttribute(CaptchaProcessor.CAPTCHA);
-        if (null == storedCaptcha || !storedCaptcha.equals(captcha)) {
-            return true;
+        boolean ret = !CaptchaProcessor.CAPTCHAS.contains(captcha);
+        if (!ret) {
+            CaptchaProcessor.CAPTCHAS.remove(captcha);
         }
 
-        session.removeAttribute(CaptchaProcessor.CAPTCHA);
-
-        return false;
+        return ret;
     }
 
     @Override
@@ -220,8 +213,7 @@ public class UserRegisterValidation extends BeforeRequestProcessAdvice {
                             roleQueryService.getUserPermissionsGrantMap(referralUser.optString(Keys.OBJECT_ID));
                     final JSONObject useILPermission =
                             permissions.get(Permission.PERMISSION_ID_C_COMMON_USE_INVITATION_LINK);
-                    useInvitationLink = UserExt.containsWhiteListInvitationUser(referral)
-                            && useILPermission.optBoolean(Permission.PERMISSION_T_GRANT);
+                    useInvitationLink = useILPermission.optBoolean(Permission.PERMISSION_T_GRANT);
                 }
             } catch (final Exception e) {
                 LOGGER.log(Level.WARN, "Query user [name=" + referral + "] failed", e);

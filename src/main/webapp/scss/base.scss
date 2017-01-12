@@ -20,7 +20,7 @@
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
  * @author <a href="http://88250.b3log.org">Liang Ding</a>
- * @version 2.26.19.51, Dec 27, 2016
+ * @version 2.26.19.52, Jan 11, 2017
  */
 
 @import "variables";
@@ -226,7 +226,7 @@ blockquote {
 .content-reset {
     font-family: $font-family-base;
     word-wrap: break-word;
-    overflow: hidden;
+    overflow: auto;
     line-height: 1.5;
     font-size: 16px;
 
@@ -722,8 +722,7 @@ button,
     color: #333;
     border-radius: 3px;
     padding: 6px 12px;
-    background-color: #fcfcfc;
-    background: linear-gradient(#fcfcfc, #eee);
+    background-color: #f2f2f2;
     border: 1px solid #D5D5D5;
     border-bottom-color: #E1E1E1;
     box-sizing: border-box;
@@ -737,14 +736,12 @@ button:hover,
     text-decoration: none;
     border-color: $fade;
     background-color: #eee;
-    background: linear-gradient(#eee, #ddd);
 }
 
 button:active,
 .btn:active {
-    border-color: #51a7e8;
-    background-color: #dcdcdc;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset;
+    background-color: $fade;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) inset;
 }
 
 button.green,
@@ -752,21 +749,18 @@ button.green,
     color: #fff;
     text-shadow: 0 -1px 0 rgba(0,0,0,0.15);
     background-color: #60b044;
-    background-image: none;
     border-color: #5ca941;
 }
 
 button.green:hover,
 .btn.green:hover{
     background-color: $green;
-    background-image: none;
 }
 
 button.green:active {
     background-color: $green;
-    background-image: none;
     border-color: #418737;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25) inset;
 }
 
 button.red,
@@ -779,15 +773,15 @@ button.red:hover,
 .btn.red-hover {
     color: #FFF;
     background-color: $red;
-    background-image: linear-gradient(#c0372a, $red);
     border-color: #c0372a;
 }
 
 button.red:active,
 .btn.red:active {
     background-color: $red;
-    background-image: none;
-    border-color: #c9320c
+    border-color: #c9320c;
+    color: #FFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25) inset;
 }
 
 button.small,
@@ -835,6 +829,9 @@ a[class*=" icon-"]:hover {
     color: $blue;
 }
 
+.icon-history:before {
+  content: "\f1db";
+}
 .icon-pin:before {
   content: "\e90e";
 }
@@ -1935,7 +1932,7 @@ ul.CodeMirror-hints {
         min-width: 35%;
         color: #FFF;
         background-color: $red;
-        background-image: linear-gradient(#c0372a, $red);
+        background-image: none;
         border-color: #c0372a;
         letter-spacing: 1px;
         line-height: 18px;
@@ -1944,7 +1941,6 @@ ul.CodeMirror-hints {
 
     .info button.red:hover {
         background-color: #c0372a;
-        background-image: none;
     }
 
     .info .fn-right {
@@ -2071,6 +2067,7 @@ ul.CodeMirror-hints {
 
     .aa-dataset-0 {
         max-height: 600px;
+        overflow: auto;
     }
 
     .aa-dropdown-menu img {
